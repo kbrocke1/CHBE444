@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[12]:
+
+
+import numpy as np
+import scipy.optimize as opt
+
+
+def z(x):
+    z = x[0]+0.5*x[1] 
+    return z
+
+z([1, 1])  # test the function
+
+ineq_cons = {'type': 'ineq',
+             'fun': lambda x: np.array([x[0],
+                                         x[1],
+                                         1 - x[1],
+                                         x[0] - np.exp(-1.5*x[1]),
+                                         1/(1 + 1.5*x[1]) - x[0]])}
+
+x0 = [0.33, 0.75]
+
+res = opt.minimize(z, x0, method='SLSQP',
+                   constraints=[ineq_cons],
+                   options={'ftol': 1e-9, 'disp': True})
+
+print(res.x) 
+print(res.fun)
+print(res.success) 
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
